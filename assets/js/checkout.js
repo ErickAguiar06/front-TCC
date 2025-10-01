@@ -60,7 +60,8 @@ function obterCarrinho() {
   return carrinhoJSON ? JSON.parse(carrinhoJSON) : [];
 }
 
-async function finalizarPedido() {
+// NOVA função para iniciar pagamento (chama /pagamentos)
+async function iniciarPagamento() {
   const carrinho = obterCarrinho();
   if (carrinho.length === 0) {
     alert("Seu carrinho está vazio.");
@@ -75,7 +76,7 @@ async function finalizarPedido() {
   }
 
   try {
-    const response = await fetch(`${API_URL}/pedidos`, {
+    const response = await fetch(`${API_URL}/pagamentos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -91,7 +92,7 @@ async function finalizarPedido() {
     console.log("📦 Resposta do backend:", data);
 
     if (!response.ok) {
-      alert(data.message || "Erro ao criar pedido.");
+      alert(data.message || "Erro ao iniciar pagamento.");
       return;
     }
 
@@ -108,12 +109,13 @@ async function finalizarPedido() {
       return;
     }
 
-    alert("Pedido criado com sucesso! Aguarde o pagamento.");
+    alert("Pagamento iniciado com sucesso! Aguarde a confirmação.");
   } catch (err) {
-    console.error("Erro ao finalizar pedido:", err);
-    alert("Erro ao finalizar pedido. Tente novamente.");
+    console.error("Erro ao iniciar pagamento:", err);
+    alert("Erro ao iniciar pagamento. Tente novamente.");
   }
 }
 
-window.irParaPagamento = finalizarPedido;
+window.irParaPagamento = iniciarPagamento;
+
 document.addEventListener("DOMContentLoaded", atualizarTabelaCarrinho);
