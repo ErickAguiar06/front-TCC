@@ -74,43 +74,50 @@ body {
 }
 
 .products {
-  display: flex;
-  justify-content: center;        /* Centraliza os cards */
-  flex-wrap: nowrap;              /* Não deixa quebrar linha */
-  gap: 16px;                      /* Espaço entre os cards */
-  overflow-x: auto;               /* Scroll horizontal se necessário */
-  padding: 20px;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 por linha */
+  gap: 20px; /* espaço entre os cards */
+  padding: 100px 250px 0px; /* afastar do header fixo */
+  justify-items: center;
 }
 
+/* Card */
 .product {
-  flex: 0 0 220px;                /* Reduz a largura */
-  height: 380px;                  /* Reduz a altura */
-  background: white;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
+  width: 220px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-
-
-.product:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
+/* Imagem */
 .product img {
   width: 100%;
-  height: 180px;
+  height: 200px;
   object-fit: contain;
-  margin-bottom: 12px;
+  margin-bottom: 15px; /* espaço embaixo da imagem */
   border-radius: 10px;
+}
+
+/* Texto do produto */
+.product p {
+  flex-grow: 1;
+  margin-bottom: 10px; /* espaço extra antes do preço */
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Preço */
+.product .price {
+  font-weight: bold;
+  color: #e60000;
+  margin-bottom: 12px;
 }
 
 .product p {
@@ -153,6 +160,16 @@ body {
   background: #ffcc00;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+.screen-reader-text1 {
+    font-size: 20px;
+    color: #ff8c42;
+}
+
+.product .btn {
+    margin-top: 10px;
+}
+
 
 .screen-reader-text1 {
     font-size: 20px;
