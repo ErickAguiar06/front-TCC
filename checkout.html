@@ -7,65 +7,75 @@
   <link rel="stylesheet" href="assets/css/checkout.css" />
 </head>
 <body>
-  <header>
-     <div class="menu-toggle" id="menu-toggle">☰</div>
-    <nav class="slide-menu" id="slide-menu">
-      <ul>
-        <li><h2>Produtos para:</h2></li>
-        <li><a href="magnus.html" class="but">CÃES</a></li>
-        <li><a href="cat2.html" class="but">GATOS</a></li>
-        <li><a href="#" class="but">PÁSSAROS</a></li>
-        <li><a href="tartaruga.html" class="but">TARTARUGAS</a></li>
-        <li><a href="#" class="but">PEIXES</a></li>
-        <li><a href="#" class="but">ROEDORES</a></li>
-      </ul>
-    </nav>
-    <div class="logo">Checkout</div>
-    <button id="voltar-topo" onclick="window.location.href='index.html'">
-      ❌ <span id="quantidade-carrinho"></span>
-    </button>
-  </header>
+<header>
+  <div class="menu-toggle" id="menu-toggle">☰</div>
+  <nav class="slide-menu" id="slide-menu">
+    <ul>
+      <li><h2>Produtos para:</h2></li>
+      <li><a href="magnus.html" class="but">CÃES</a></li>
+      <li><a href="cat2.html" class="but">GATOS</a></li>
+      <li><a href="#" class="but">PÁSSAROS</a></li>
+      <li><a href="tartaruga.html" class="but">TARTARUGAS</a></li>
+      <li><a href="#" class="but">PEIXES</a></li>
+      <li><a href="#" class="but">ROEDORES</a></li>
+    </ul>
+  </nav>
+  <div class="logo">Checkout</div>
+  <button id="voltar-topo" onclick="window.location.href='index.html'">❌ <span id="quantidade-carrinho"></span></button>
+</header>
 
-  <main>
-    <div class="checkout-container">
-      <h1>Finalizar Pedido</h1>
-      <div class="table-responsive">
-        <table>
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Qtd</th>
-              <th>Preço</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-produtos">
-            <!-- Os itens serão preenchidos pelo JS -->
-          </tbody>
-        </table>
-      </div>
-      <div class="total">
-        Total: <span id="total-geral">R$ 0,00</span>
-      </div>
-      <button onclick="irParaPagamento()" class="btn-pagar">Seguir para o pagamento</button>
+<main>
+  <div class="checkout-container">
+    <h1>Finalizar Pedido</h1>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr><th>Produto</th><th>Qtd</th><th>Preço</th></tr>
+        </thead>
+        <tbody id="tabela-produtos"></tbody>
+      </table>
     </div>
-  </main>
-  <script src="assets/js/checkout.js"></script>
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    // Menu responsivo
-    const menuToggle = document.getElementById('menu-toggle');
-    const slideMenu = document.getElementById('slide-menu');
-    menuToggle.onclick = () => {
-      slideMenu.classList.toggle('active');
-      menuToggle.classList.toggle('active');
-    };
-    // Fecha menu ao clicar fora
-    document.addEventListener('click', function(e) {
-      if (!slideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-        slideMenu.classList.remove('active');
-        menuToggle.classList.remove('active');
-      }
-    });
-  </script>
+    <div class="total">Total: <span id="total-geral">R$ 0,00</span></div>
+    <button id="btn-pagar" class="btn-pagar">Seguir para o pagamento</button>
+  </div>
+
+  <!-- Modal de Pagamento -->
+  <div id="modal-pagamento" class="modal">
+    <div class="modal-content">
+      <span class="close" id="fechar-modal">&times;</span>
+      <h2>Escolha o método de pagamento</h2>
+      <select id="metodoPagamento">
+        <option value="PIX">PIX</option>
+        <option value="BOLETO">Boleto</option>
+        <option value="CREDIT_CARD">Cartão de Crédito</option>
+      </select>
+
+      <div id="cartao-form" class="hidden">
+        <input type="text" id="cc-nome" class="input-field" placeholder="Nome no cartão" />
+        <input type="text" id="cc-numero" class="input-field" placeholder="Número do cartão (sandbox)" />
+        <input type="text" id="cc-validade" class="input-field" placeholder="MM/AA" />
+        <input type="text" id="cc-cvv" class="input-field" placeholder="CVV" />
+      </div>
+
+      <button id="btn-confirmar-pagamento" class="btn-pagar">Confirmar</button>
+    </div>
+  </div>
+</main>
+
+<script src="assets/js/checkout.js"></script>
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const slideMenu = document.getElementById('slide-menu');
+  menuToggle.onclick = () => {
+    slideMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
+  };
+  document.addEventListener('click', e => {
+    if (!slideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+      slideMenu.classList.remove('active');
+      menuToggle.classList.remove('active');
+    }
+  });
+</script>
 </body>
 </html>

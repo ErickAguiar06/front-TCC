@@ -1,4 +1,4 @@
-const API_URL = "https://back-tcc.vercel.app"; // Certifique-se de que esta URL está correta para sua API
+const API_URL = "https://back-tcc.vercel.app";
 
 function formatarPreco(valor) {
   return `R$ ${valor.toFixed(2).replace(".", ",")}`;
@@ -18,48 +18,31 @@ function atualizarTabelaCarrinho() {
   }
 
   carrinho.forEach((item, idx) => {
-    // Verifique se item.preco e item.quantidade são números válidos
     const preco = parseFloat(item.preco);
     const quantidade = parseInt(item.quantidade);
-
     if (isNaN(preco) || isNaN(quantidade)) {
-      console.error("Item inválido no carrinho:", item);
-      return; // Pula este item se for inválido
+      console.error("Item inválido:", item);
+      return;
     }
-
     const subtotal = preco * quantidade;
     total += subtotal;
 
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>
-        <img src="${item.imagem}" alt="${item.nome}" class="img-produto-checkout">
-        ${item.nome}
-      </td>
-      <td>
-        <button class="btn-qtd" onclick="alterarQtd(${idx}, -1)">-</button>
-        <span class="qtd">${quantidade}</span>
-        <button class="btn-qtd" onclick="alterarQtd(${idx}, 1)">+</button>
-      </td>
-      <td>${formatarPreco(subtotal)}</td>
-      <td>
-        <button class="btn-remover" onclick="removerProduto(${idx})">
-          <img src="assets/img/lixo-icon.png" alt="Remover">
-        </button>
-      </td>
-    `;
+    tr.innerHTML = `<td><img src="${item.imagem}" alt="${item.nome}" class="img-produto-checkout">${item.nome}</td>
+    <td><button class="btn-qtd" onclick="alterarQtd(${idx},-1)">-</button><span class="qtd">${quantidade}</span><button class="btn-qtd" onclick="alterarQtd(${idx},1)">+</button></td>
+    <td>${formatarPreco(subtotal)}</td>
+    <td><button class="btn-remover" onclick="removerProduto(${idx})"><img src="assets/img/lixo-icon.png" alt="Remover"></button></td>`;
     tabela.appendChild(tr);
   });
-
   totalGeral.textContent = formatarPreco(total);
 }
 
 window.alterarQtd = function (idx, delta) {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-  if (carrinho[idx]) { // Garante que o item existe
-    carrinho[idx].quantidade = parseInt(carrinho[idx].quantidade) + delta; // Garante que é um número
+  if (carrinho[idx]) {
+    carrinho[idx].quantidade = parseInt(carrinho[idx].quantidade) + delta;
     if (carrinho[idx].quantidade < 1) carrinho[idx].quantidade = 1;
-    if (carrinho[idx].quantidade > 25) carrinho[idx].quantidade = 25; // Limite de quantidade
+    if (carrinho[idx].quantidade > 25) carrinho[idx].quantidade = 25;
     localStorage.setItem("carrinho", JSON.stringify(carrinho));
     atualizarTabelaCarrinho();
   }
@@ -77,88 +60,78 @@ function obterCarrinho() {
   return carrinhoJSON ? JSON.parse(carrinhoJSON) : [];
 }
 
-async function iniciarPagamento() {
-  const carrinho = obterCarrinho();
-  if (carrinho.length === 0) {
-    alert("Seu carrinho está vazio.");
-    return;
-  }
+// Modal
+const modal = document.getElementById("modal-pagamento");
+const fecharModal = document.getElementById("fechar-modal");
+const btnPagar = document.getElementById("btn-pagar");
+const btnConfirmar = document.getElementById("btn-confirmar-pagamento");
+const selectMetodo = document.getElementById("metodoPagamento");
+const cartaoForm = document.getElementById("cartao-form");
 
+btnPagar.onclick = () => modal.style.display = "flex";
+fecharModal.onclick = () => modal.style.display = "none";
+window.onclick = e => { if (e.target === modal) modal.style.display = "none"; };
+
+selectMetodo.onchange = () => cartaoForm.classList.toggle("hidden", selectMetodo.value !== "CREDIT_CARD");
+
+btnConfirmar.onclick = async () => {
+  const metodo = selectMetodo.value;
+  modal.style.display = "none";
+
+  const carrinho = obterCarrinho();
+  if (carrinho.length === 0) { alert("Carrinho vazio."); return; }
   const token = localStorage.getItem("token");
-  if (!token) {
-    alert("Você precisa estar logado para finalizar a compra.");
-    window.location.href = "login.html";
-    return;
+  if (!token) { alert("Você precisa estar logado."); window.location.href = "login.html"; return; }
+
+  // Prepara dados do cartão se necessário
+  let cartao = null;
+  if (metodo === "CREDIT_CARD") {
+    const nome = document.getElementById("cc-nome").value.trim();
+    const numero = document.getElementById("cc-numero").value.replace(/\s+/g, "");
+    const [mes, ano] = document.getElementById("cc-validade").value.split("/");
+    const cvv = document.getElementById("cc-cvv").value.trim();
+
+    if (!nome || !numero || !mes || !ano || !cvv) { alert("Preencha todos os campos do cartão."); return; }
+
+    cartao = {
+      holderName: nome,
+      number: numero,
+      expiryMonth: Number(mes),
+      expiryYear: Number(ano.length === 2 ? "20" + ano : ano),
+      cvv
+    };
   }
 
   try {
-    // ✅ 1. Criar pedido no backend
-    // Mapeia o carrinho para o formato esperado pelo backend: { produtoId, quantidade }
-    const itensParaPedido = carrinho.map(item => ({
-      produtoId: item.id, // Use item.id, que deve ser o ID do produto no banco de dados
-      quantidade: item.quantidade,
-    }));
-
-    const pedidoResponse = await fetch(`${API_URL}/pedidos`, {
+    const itensParaPedido = carrinho.map(i => ({ produtoId: i.id, quantidade: i.quantidade }));
+    const pedidoRes = await fetch(`${API_URL}/pedidos`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ itens: itensParaPedido }), // Envia os itens mapeados
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ itens: itensParaPedido })
     });
-
-    const pedidoData = await pedidoResponse.json();
-    console.log("📦 Pedido criado:", pedidoData);
-
-    if (!pedidoResponse.ok) {
-      alert(pedidoData.erro || pedidoData.message || "Erro ao criar pedido.");
-      return;
-    }
-
+    const pedidoData = await pedidoRes.json();
+    if (!pedidoRes.ok) return alert(pedidoData.message || "Erro ao criar pedido.");
     const pedidoId = pedidoData.id;
 
-    // ✅ 2. Chamar rota de pagamento com o pedidoId
-    const pagamentoResponse = await fetch(`${API_URL}/pagamentos`, {
+    const pagamentoRes = await fetch(`${API_URL}/pagamentos`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        pedidoId,
-        metodoPagamento: "PIX", // ou "BOLETO", "CREDIT_CARD"
-      }),
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ pedidoId, metodoPagamento: metodo, cartao: cartao })
     });
+    const pagamentoData = await pagamentoRes.json();
+    if (!pagamentoRes.ok) return alert(pagamentoData.message || "Erro ao gerar pagamento.");
 
-    const pagamentoData = await pagamentoResponse.json();
-    console.log("💳 Resposta do pagamento:", pagamentoData);
-
-    if (!pagamentoResponse.ok) {
-      alert(pagamentoData.message || "Erro ao iniciar pagamento.");
-      return;
-    }
-
-    // ✅ 3. Redirecionar para a tela de pagamento ou link
-    if (pagamentoData.pixQrCode || pagamentoData.pixCopiaCola) {
+    if (pagamentoData.linkPagamento) window.open(pagamentoData.linkPagamento, "_blank");
+    else if (pagamentoData.pixQrCode || pagamentoData.pixCopiaCola) {
       localStorage.setItem("pixPagamento", JSON.stringify(pagamentoData));
-      window.location.href = "pagamento.html";
-      return;
+      alert("PIX gerado! Copie ou escaneie o QR.");
     }
+    else alert("Pagamento iniciado! Aguarde confirmação.");
 
-    if (pagamentoData.linkPagamento) {
-      window.location.href = pagamentoData.linkPagamento;
-      return;
-    }
-
-    alert("Pagamento iniciado! Aguarde a confirmação.");
   } catch (err) {
-    console.error("Erro ao iniciar pagamento:", err);
-    alert("Erro ao iniciar pagamento. Tente novamente.");
+    console.error(err);
+    alert("Erro ao processar pagamento.");
   }
-}
-
-
-window.irParaPagamento = iniciarPagamento;
+};
 
 document.addEventListener("DOMContentLoaded", atualizarTabelaCarrinho);
