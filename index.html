@@ -15,6 +15,9 @@
     </div>
     <nav>
       <ul>
+         <div class="perfil-container" id="perfil-container">
+    <span id="perfil-nome">Perfil</span> ▼
+  </div>
         <li><a href="negocios.html"><i class="fas fa-paw"></i> Serviços</a></li>
         <li><a href="#"><i class="fas fa-tags"></i> Promoções</a></li>
         <li><a href="sobre.html"><i class="fas fa-envelope"></i> Contato</a></li>
@@ -22,6 +25,17 @@
       </ul>
     </nav>
   </header>
+
+<!-- Modal de perfil – fora do header -->
+<div id="modal-perfil" class="modal">
+  <div class="modal-content">
+    <span class="close" id="fechar-perfil">&times;</span>
+    <h3>Conta logada</h3>
+    <p id="perfil-email"></p>
+    <button id="btn-logout" class="btn-pagar">Logout</button>
+  </div>
+</div>
+
 <section class="hero">
   <div class="carousel">
     <div class="carousel-track">

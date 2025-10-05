@@ -18,6 +18,49 @@ header {
   z-index: 10;
 }
 
+/* Modal perfil */
+#modal-perfil {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none; /* por padrão escondido */
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#modal-perfil .modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  max-width: 90%;
+  text-align: center;
+}
+
+#modal-perfil .close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.btn-pagar {
+  padding: 10px 15px;
+  background: #321110;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.btn-pagar:hover {
+  background: #955643;
+}
+
 .logo {
   font-size: 2rem;
   font-weight: bold;

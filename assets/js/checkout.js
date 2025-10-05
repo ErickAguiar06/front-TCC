@@ -135,3 +135,39 @@ btnConfirmar.onclick = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", atualizarTabelaCarrinho);
+
+
+// === PERFIL / LOGOUT ===
+const perfilContainer = document.getElementById("perfil-container");
+const modalPerfil = document.getElementById("modal-perfil");
+const fecharPerfil = document.getElementById("fechar-perfil");
+const perfilEmail = document.getElementById("perfil-email");
+const btnLogout = document.getElementById("btn-logout");
+
+// Mostrar modal ao clicar no perfil
+perfilContainer.onclick = () => {
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+  if(usuario && usuario.email){
+    perfilEmail.textContent = usuario.email;
+    modalPerfil.style.display = "flex";
+  } else {
+    alert("Usuário não logado.");
+  }
+};
+
+// Fechar modal
+fecharPerfil.onclick = () => modalPerfil.style.display = "none";
+window.onclick = (e) => { if(e.target === modalPerfil) modalPerfil.style.display = "none"; };
+
+// Logout
+btnLogout.onclick = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("usuarioLogado");
+  window.location.href = "login.html";
+};
+
+// Mostrar email resumido no header
+const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+if(usuario && usuario.email){
+  document.getElementById("perfil-nome").textContent = usuario.email.split("@")[0];
+}
