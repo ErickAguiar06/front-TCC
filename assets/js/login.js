@@ -14,57 +14,139 @@ document.addEventListener('DOMContentLoaded', () => {
   setupToggleSenha('senhaCadastro', 'toggleSenhaCadastro');
   setupToggleSenha('senhaLogin', 'toggleSenhaLogin');
 
-  /* === LOGIN === */
-  const formLogin = document.querySelector('#formLogin');
-  formLogin.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const dados = { email: formLogin.email.value, senha: formLogin.senha.value };
+  /* === FUNÇÃO AUXILIAR PARA PREVENIR CLIQUES MÚLTIPLOS (MELHORADA) === */
+  function handleSubmit(form, fetchFn, successCallback, buttonText = "Enviando...") {
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
 
-    try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        alert('Login bem-sucedido!');
-        window.location.href = "index.html";
-      } else {
-        alert(data.message || 'Email ou senha inválidos.');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Previne cliques múltiplos
+      if (submitButton.disabled) return;
+      submitButton.disabled = true;
+      submitButton.textContent = buttonText;
+
+      let response;
+      let data;
+      try {
+        // Executa a função de fetch
+        await fetchFn(e);
+        
+        // ✅ Aqui, assumimos que fetchFn já faz o fetch e retorna se ok ou não
+        // Mas para debug, vamos capturar explicitamente dentro de fetchFn
+      } catch (error) {
+        console.error("❌ Erro no submit (rede ou parsing):", error);
+        alert("Erro de conexão. Verifique sua internet e tente novamente.");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
       }
-    } catch {
-      alert('Erro ao fazer login.');
+    });
+  }
+
+  /* === LOGIN === */
+  const formLogin = document.getElementById('formLogin');
+  handleSubmit(formLogin, async (e) => {
+    const email = formLogin.email.value.trim();
+    const senha = formLogin.senha.value;
+    
+    console.log("🔍 Tentativa de login - Email:", email); // Debug no navegador
+
+    if (!email || !senha) {
+      alert("Email e senha são obrigatórios.");
+      return;
     }
-  });
+
+    const dados = { email, senha };
+
+    const response = await fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados),
+    });
+
+    console.log("📡 Resposta do login - Status:", response.status, "OK?", response.ok); // Debug
+
+    let data;
+    try {
+      data = await response.json();
+      console.log("📄 Dados da resposta:", data); // Debug (sem senha)
+    } catch (parseError) {
+      console.error("❌ Erro ao parsear JSON da resposta:", parseError);
+      alert("Erro ao processar resposta do servidor.");
+      return;
+    }
+
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      alert('Login bem-sucedido!');
+      window.location.href = "index.html";
+    } else {
+      // Mensagens específicas
+      let mensagem = data.message || 'Email ou senha inválidos.';
+      if (response.status === 500) {
+        mensagem = 'Erro no servidor. Tente novamente em alguns minutos.';
+      } else if (response.status === 401) {
+        mensagem = 'Email ou senha inválidos.';
+      } else if (response.status === 400) {
+        mensagem = 'Email e senha são obrigatórios.';
+      }
+      console.log("❌ Erro no login:", mensagem); // Debug
+      alert(mensagem);
+    }
+  }, null, "Entrando...");
 
   /* === CADASTRO === */
-  document.getElementById("formCadastro").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nome = e.target.nome.value;
-    const email = e.target.email.value;
-    const telefone = e.target.telefone.value;
+  const formCadastro = document.getElementById("formCadastro");
+  handleSubmit(formCadastro, async (e) => {
+    const nome = e.target.nome.value.trim();
+    const cpf = e.target.cpf.value.trim();
+    const email = e.target.email.value.trim();
+    const telefone = e.target.telefone.value.trim();
     const senha = e.target.senha.value;
 
-    try {
-      const response = await fetch(`${API_URL}/usuarios`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, email, telefone, senha }),
-      });
+    console.log("🔍 Tentativa de cadastro - Dados:", { nome, cpf: cpf.substring(0,3)+'...', email, telefone }); // Debug (mascara CPF/senha)
 
-      const data = await response.json();
-      if (response.ok) {
-        alert("Usuário cadastrado com sucesso!");
-        container.classList.remove("right-panel-active");
-      } else {
-        alert(data.message || "Erro ao cadastrar.");
-      }
-    } catch {
-      alert("Erro ao cadastrar.");
+    if (!nome || !cpf || !email || !telefone || !senha) {
+      alert("Preencha todos os campos obrigatórios.");
+      return;
     }
-  });
+
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome, cpf, email, telefone, senha }),
+    });
+
+    console.log("📡 Resposta do cadastro - Status:", response.status, "OK?", response.ok); // Debug
+
+    let data;
+    try {
+      data = await response.json();
+      console.log("📄 Dados da resposta:", data); // Debug
+    } catch (parseError) {
+      console.error("❌ Erro ao parsear JSON da resposta:", parseError);
+      alert("Erro ao processar resposta do servidor.");
+      return;
+    }
+
+    if (response.ok) {
+      alert("Usuário cadastrado com sucesso!");
+      document.getElementById("container").classList.remove("right-panel-active"); // Volta para login
+      formCadastro.reset(); // Limpa o form
+    } else {
+      // Mensagens específicas
+      let mensagem = data.message || "Erro ao cadastrar.";
+      if (response.status === 409) {
+        mensagem = "E-mail ou CPF já cadastrado. Faça login.";
+      } else if (response.status === 400) {
+        mensagem = data.message || "Preencha os campos corretamente.";
+      }
+      console.log("❌ Erro no cadastro:", mensagem); // Debug
+      alert(mensagem);
+    }
+  }, null, "Cadastrando...");
 
   /* === Alternar entre login/cadastro === */
   const signUpButton = document.getElementById("signUp");
@@ -74,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   signUpButton.addEventListener("click", () => container.classList.add("right-panel-active"));
   signInButton.addEventListener("click", () => container.classList.remove("right-panel-active"));
 
-  /* === Recuperar senha === */
+  /* === Recuperar senha === (mantido igual, mas com debug se quiser) */
   const esqueceuSenha = document.getElementById("esqueceuSenha");
   const modalRecuperarSenha = document.getElementById("modalRecuperarSenha");
   const fecharModalRecuperar = document.getElementById("fecharModalRecuperar");

@@ -1,5 +1,3 @@
-// MultipleFiles/checkout.js (Versão Corrigida)
-
 const API_URL = "https://back-tcc.vercel.app"; // Certifique-se de que esta URL está correta para sua API
 
 function formatarPreco(valor) {
@@ -159,6 +157,7 @@ async function iniciarPagamento() {
     alert("Erro ao iniciar pagamento. Tente novamente.");
   }
 }
+
 
 window.irParaPagamento = iniciarPagamento;
 
