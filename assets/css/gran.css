@@ -102,46 +102,41 @@ body {
   background: #fdd835;
 }
 
-
-
 .products {
-  display: flex;
-  justify-content: center;        /* Centraliza os cards */
-  flex-wrap: nowrap;              /* Não deixa quebrar linha */
-  gap: 16px;                      /* Espaço entre os cards */
-  overflow-x: auto;               /* Scroll horizontal se necessário */
-  padding: 20px;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 por linha */
+  gap: 20px; /* espaço entre os cards */
+  padding: 40px 300px 0px; /* afastar do header fixo */
+  justify-items: center;
 }
 
+/* Card */
 .product {
-  flex: 0 0 220px;                /* Reduz a largura */
-  height: 380px;                  /* Reduz a altura */
-  background: white;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
+  width: 220px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-
-
-.product:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-}
-
+/* Imagem */
 .product img {
   width: 100%;
   height: 200px;
   object-fit: contain;
-  margin-bottom: 12px;
+  margin-bottom: 15px; /* espaço embaixo da imagem */
   border-radius: 10px;
+}
+/* Preço */
+ .new-price {
+  font-weight: bold;
+  color: #e60000;
+  margin-bottom: 12px;
 }
 
 .product p {
@@ -153,16 +148,11 @@ body {
   flex-grow: 1;
 }
 
+
 .product .old-price {
   text-decoration: line-through;
   font-size: 13px;
   color: #999;
-}
-
-.product .new-price {
-  font-size: 16px;
-  color: #d32f2f;
-  font-weight: bold;
 }
 
 .product .btn,

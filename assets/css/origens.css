@@ -77,7 +77,7 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 por linha */
   gap: 20px; /* espaço entre os cards */
-  padding: 100px 250px 0px; /* afastar do header fixo */
+  padding: 0px 300px 0px; /* afastar do header fixo */
   justify-items: center;
 }
 
@@ -90,7 +90,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;

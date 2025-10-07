@@ -95,11 +95,11 @@ h2 {
     background-color:#28a745;
 }
 .products {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 por linha */
-  gap: 20px; /* espaço entre os cards */
-  padding: 100px 250px 0px; /* afastar do header fixo */
-  justify-items: center;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 130px 300px 0px;
+    justify-items: center;
 }
 
 /* Card */
@@ -124,14 +124,6 @@ h2 {
   object-fit: contain;
   margin-bottom: 15px; /* espaço embaixo da imagem */
   border-radius: 10px;
-}
-
-/* Texto do produto */
-.product p {
-  flex-grow: 1;
-  margin-bottom: 10px; /* espaço extra antes do preço */
-  font-size: 14px;
-  line-height: 1.4;
 }
 
 /* Preço */
@@ -181,16 +173,6 @@ h2 {
   background: #ffcc00;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-.screen-reader-text1 {
-    font-size: 20px;
-    color: #ff8c42;
-}
-
-.product .btn {
-    margin-top: 10px;
-}
-
 
 #carrinho-topo {
   background: #3c3b3af7;

@@ -78,41 +78,58 @@ body {
     background-color:#28a745;
 }   
 .products {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 por linha */
+  gap: 20px; /* espaço entre os cards */
+  padding: 30px 300px 0px; /* afastar do header fixo */
+  justify-items: center;
 }
 
+/* Card */
 .product {
-    height: auto; /* Removido valor fixo para permitir ajuste dinâmico */
-    width: 230px;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 10px;
+  width: 220px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.product:hover {
-    transform: translateY(-5px);
-}
-
+/* Imagem */
 .product img {
-    border-radius: 8px;
-    max-width: 200px;
-    margin: 0 auto;
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 15px; /* espaço embaixo da imagem */
+  border-radius: 10px;
+}
+
+/* Texto do produto */
+.product p {
+  flex-grow: 1;
+  margin-bottom: 10px; /* espaço extra antes do preço */
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Preço */
+ .new-price {
+  font-weight: bold;
+  color: #e60000;
+  margin-bottom: 12px;
 }
 
 .product p {
-    font-size: 15px;
-    font-weight: bold;
-    min-height: 50px; /* Dá espaço para descrições maiores */
-    margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 10px 0 6px;
+  line-height: 1.3;
+  flex-grow: 1;
 }
 
 .product .price-old {
@@ -159,29 +176,6 @@ body {
     font-weight: bold;
     border-radius: 5px;
     transition: 0.3s;
-}
-
-#carrinho-topo {
-  background: #3c3b3af7;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 1.3rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-left: 18px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-#carrinho-topo:hover {
-  background: #fdd835;
 }
 
 #frase-menu {

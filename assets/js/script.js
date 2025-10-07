@@ -202,8 +202,12 @@ if(usuario && usuario.email){
 // =============================
 // INICIALIZAÇÃO
 // =============================
+function moveCarousel(direction) {
+  carousel.move(direction);
+}
 document.addEventListener("DOMContentLoaded", () => {
-  carregarProdutos();
   carousel.init();
+  productsCarousel.track = document.getElementById("productsTrack");
+  carregarProdutos();
   bannerCarousel.init();
 });

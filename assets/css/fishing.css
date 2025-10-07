@@ -38,15 +38,68 @@ nav ul li a:hover {
     color: #ffeb3b;
 }
 
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    background-color: #ffeb3b;
-    color: #333;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: 0.3s;
+.products {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-content: center; /* 5 por linha */
+  gap: 20px; /* espaço entre os cards */
+  padding: 0px 300px 0px; /* afastar do header fixo */
+  justify-items: center;
+}
+
+.product {
+  width: 200px;
+  border-radius: 12px;
+  background: #fff;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product:hover{
+    transform: translateY(-10px) scale(1.04);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,150,255,0.12);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    background: linear-gradient(135deg, #ffffff 60%, #fff 100%);
+}
+/* Imagem */
+.product img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  margin-bottom: 15px; /* espaço embaixo da imagem */
+  border-radius: 10px;
+}
+
+/* Preço */
+ .new-price {
+  font-weight: bold;
+  color: #e60000;
+  margin-bottom: 12px;
+}
+
+.product .btn,
+.product button {
+  background: linear-gradient(to right, #ffe259, #ffd000);
+  color: #000;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  margin-top: 8px;
+}
+
+.product .btn:hover,
+.product button:hover {
+  background: #ffcc00;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 #carrinho-topo {
@@ -337,70 +390,6 @@ button.fechar:hover {
     transition: 0.3s;
 }
 
-.card button:hover {
-    background-color: #fdd835;
-}
-
-
-
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px 5%;
-    }
-
-    .logo {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-        padding: 0;
-    }
-
-    nav ul li a {
-        font-size: 16px;
-    }
-
-    .banner {
-        height: 250px;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .sidebar {
-        width: 100%;
-        right: -100%; /* Esconde toda a largura da tela */
-    }
-
-    .sidebar.ativo {
-        right: 0;
-    }
-
-    .carrinho-produto {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-
-    .conteudo img {
-        width: 100%;
-    }
-
-    .cards-container {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-
-    .card {
-        width: 100%;
-        margin: 10px 0;
-        padding: 15px;
-    }
-
     main {
         margin: 20px;
     }
@@ -419,4 +408,55 @@ button.fechar:hover {
         top: 5px;
         right: 5px;
     }
-}
+
+
+    /* Estilos da navegação */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+      background-color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Estilos dos links de navegação */
+    .pagination a {
+      text-decoration: none;
+      font-size: 18px;
+      color: #333;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: 0 15px;
+      transition: all 0.3s ease;
+    }
+
+    /* Efeito de hover nas setas e no número */
+    .pagination a:hover {
+      background-color: #007BFF;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .pagination a:active {
+      transform: scale(0.9);
+    }
+
+    /* Estilo do número da página */
+    .pagination span {
+      font-size: 18px;
+      font-weight: 500;
+      color: #333;
+      margin: 0 10px;
+    }
+
+    /* Efeito de borda para o número da página */
+    .pagination span:hover {
+      color: #007BFF;
+      cursor: pointer;
+    }

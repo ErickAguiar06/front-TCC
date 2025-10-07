@@ -78,12 +78,11 @@ body {
 
 
 /* Container dos produtos */
-/* Container dos produtos */
 .products {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 por linha */
   gap: 20px; /* espaço entre os cards */
-  padding: 100px 250px 0px; /* afastar do header fixo */
+  padding: 0px 300px 0px; /* afastar do header fixo */
   justify-items: center;
 }
 
@@ -96,7 +95,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -111,13 +109,6 @@ body {
   border-radius: 10px;
 }
 
-/* Texto do produto */
-.product p {
-  flex-grow: 1;
-  margin-bottom: 10px; /* espaço extra antes do preço */
-  font-size: 14px;
-  line-height: 1.4;
-}
 
 /* Preço */
 .product .price {
@@ -271,7 +262,7 @@ button.fechar:hover {
     background: url('../img/magnus-1.png') no-repeat center center;
     background-size: cover; 
     display: block;
-    height: 470px; 
+    height: 450px; 
     width: 100%;
     max-width: 100%;
     padding: 0;

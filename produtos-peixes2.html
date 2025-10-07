@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/alcon.css">
+    <link rel="stylesheet" href="assets/css/fishing.css">
     <title>Peixes</title>
 </head>
 <body>
     <header>
-    <div class="logo">Ração</div>
+    <div class="logo">Peixes</div>
   <div class="menu-toggle" id="menu-toggle">☰</div>
     <nav class="slide-menu" id="slide-menu">
                 <a href="index.html" class=but>INÍCIO</a>
-                <a href="produtos-peixe.html" class="but">PRODUTOS</a>
+                <a href="fishing.html" class="but">RAÇÃO</a>
                 <a href="checkout.html" class="but">CARRINHO</a>
         </nav>
     </header>
     <div class="banner"></div>
+   
     <section class="products" id="produtos"></section>
-    <br>
+      <div class="pagination">
+    <a href="#">&lt;</a> <!-- Ícone de setas para a esquerda -->
+    <span>2/3</span> <!-- Indica a página atual e total -->
+    <a href="fishing.html"> &gt;</a> <!-- Ícone de setas para a direita -->
+  </div>
 
-</section>
 <div id="carrinho-sidebar" class="sidebar">
     <div class="conteudo">
     <button class="fechar" onclick="fecharCarrinho()">X</button>
@@ -49,6 +53,6 @@
         <div class="screen-reader-text1"> R$ 37,20</div>
         <button onclick="adicionarAoCarrinho(13, 'Origens Premium Especial Cães Adultos Sabor Carne e Cereais', 'Suplemento Pet', 37.20, 'assets/img/origens3.webp')">Adicionar ao Carrinho</button>
     </div>
-<script src="assets/js/fishing.js"></script>
+<script src="assets/js/produtos.js"></script>
 </body>
 </html>
