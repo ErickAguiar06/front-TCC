@@ -390,6 +390,64 @@ button.fechar:hover {
     transition: 0.3s;
 }
 
+@media (max-width: 768px) {}
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 5%;
+    }
+
+    .logo {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav ul li a {
+        font-size: 16px;
+    }
+
+    .banner {
+        height: 250px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .sidebar {
+        width: 100%;
+        right: -100%; /* Esconde toda a largura da tela */
+    }
+
+    .sidebar.ativo {
+        right: 0;
+    }
+
+    .carrinho-produto {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .conteudo img {
+        width: 100%;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .card {
+        width: 100%;
+        margin: 10px 0;
+        padding: 15px;
+    }
+
     main {
         margin: 20px;
     }

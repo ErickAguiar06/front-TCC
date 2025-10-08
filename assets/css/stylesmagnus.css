@@ -82,7 +82,7 @@ body {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 por linha */
   gap: 20px; /* espaço entre os cards */
-  padding: 0px 300px 0px; /* afastar do header fixo */
+  padding: 0px 300px 60px; /* afastar do header fixo */
   justify-items: center;
 }
 
@@ -98,6 +98,13 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.product:hover{
+    transform: translateY(-10px) scale(1.04);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,150,255,0.12);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    background: linear-gradient(135deg, #ffffff 60%, #fff 100%);
 }
 
 /* Imagem */
