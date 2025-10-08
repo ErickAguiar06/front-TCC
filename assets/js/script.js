@@ -119,24 +119,27 @@ const bannerCarousel = {
 };
 
 // =============================
-// CARRINHO (localStorage)
+// CARRINHO (localStorage) - EXPANDIDO PARA INCLUIR DESCRICAO E IMAGEM
 // =============================
-function adicionarAoCarrinho(id, nome, preco) {
+function adicionarAoCarrinho(id, nome, descricao = '', preco, imagem = '') {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
   const index = carrinho.findIndex(item => item.id === id);
 
   if (index !== -1) {
     carrinho[index].quantidade++;
   } else {
-    carrinho.push({ id, nome, preco, quantidade: 1 });
+    carrinho.push({ id, nome, descricao, preco, imagem, quantidade: 1 });
   }
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
   alert(`${nome} foi adicionado ao carrinho!`);
+
+  // Opcional: Se quiser redirecionar para checkout após adicionar, descomente abaixo
+  // window.location.href = "checkout.html";
 }
 
 // =============================
-// CARREGAR PRODUTOS DO BACK
+// CARREGAR PRODUTOS DO BACK - CORRIGIDO PARA IMAGENS E PARAMS COMPLETOS
 // =============================
 async function carregarProdutos() {
   try {
@@ -148,19 +151,44 @@ async function carregarProdutos() {
 
     track.innerHTML = ""; // limpar produtos estáticos
 
+    if (!produtos || !produtos.length) {
+      track.innerHTML = "<p>Nenhum produto disponível.</p>";
+      return;
+    }
+
     produtos.forEach(prod => {
+      // Ajusta URL da imagem: se relativa, prefixa com API_URL
+      let urlImagem = prod.imagem || '';
+      if (urlImagem && !urlImagem.startsWith("http")) {
+        urlImagem = `${API_URL}/${urlImagem.replace(/^\/+/, "")}`;
+      }
+
+      // Formata preço para brasileiro (ex: R$ 59,90)
+      const precoFormatado = prod.preco ? `R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}` : 'R$ 0,00';
+
       const div = document.createElement("div");
       div.classList.add("product");
+      
+      // Opcional: Adiciona descricao se existir no banco (não quebra se não tiver)
+      const descricaoHTML = prod.descricao ? `<p class="descricao">${prod.descricao}</p>` : '';
+
       div.innerHTML = `
-        <img src="${prod.imagem}" alt="${prod.nome}">
-        <p>${prod.nome}</p>
-        <span>R$ ${prod.preco}</span>
-        <a href="#" class="btn" onclick="adicionarAoCarrinho(${prod.id}, '${prod.nome}', ${prod.preco})">Adicionar ao Carrinho</a>
+        <img src="${urlImagem}" alt="${prod.nome || 'Produto'}" onerror="this.src='assets/img/placeholder.jpg'; this.alt='Imagem não disponível';">
+        <p>${prod.nome || 'Produto sem nome'}</p>
+        ${descricaoHTML}
+        <span>${precoFormatado}</span>
+        <button class="btn" onclick="adicionarAoCarrinho(${prod.id}, '${(prod.nome || '').replace(/'/g, "\\'")}', '${(prod.descricao || '').replace(/'/g, "\\'")}', ${parseFloat(prod.preco || 0)}, '${urlImagem.replace(/'/g, "\\'")}')">
+          Adicionar ao Carrinho
+        </button>
       `;
       track.appendChild(div);
     });
   } catch (error) {
-    console.error("Erro ao carregar produtos:", error);
+    console.error("Erro ao carregar produtos do backend:", error);
+    const track = document.getElementById("productsTrack");
+    if (track) {
+      track.innerHTML = "<p>Erro ao carregar produtos. Tente novamente.</p>";
+    }
   }
 }
 
@@ -208,8 +236,11 @@ function moveCarousel(direction) {
 document.addEventListener("DOMContentLoaded", () => {
   carousel.init();
   productsCarousel.track = document.getElementById("productsTrack");
-  carregarProdutos();
   bannerCarousel.init();
+  // Garante que carregarProdutos rode após DOM estar pronto
+  if (document.getElementById("productsTrack")) {
+    carregarProdutos();
+  }
 });
 
 function moveProducts(direction) {
