@@ -211,3 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarProdutos();
   bannerCarousel.init();
 });
+
+function moveProducts(direction) {
+  productsCarousel.move(direction);
+}

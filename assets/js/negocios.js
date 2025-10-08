@@ -1,6 +1,6 @@
 async function carregarProdutos() {
   try {
-    const res = await fetch("https://back-tcc.vercel.app/produtos?marca=Servicos");
+    const res = await fetch("");
     const produtos = await res.json();
     const container = document.getElementById("produtos");
     if (!produtos.length) {
