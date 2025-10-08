@@ -104,12 +104,32 @@ nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 18px;
-    transition: 0.3s;
+    position: relative;
+    transition: color 0.3s;
 }
 
-nav ul li a:hover {               
+/* Linha embaixo do link */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background-color: #ffcc33;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Efeito hover */
+nav ul li a:hover {
     color: #ffeb3b;
 }
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
 
 /* Modal perfil */
 #modal-perfil {

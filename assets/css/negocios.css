@@ -72,8 +72,8 @@ nav ul {
   list-style: none;
   display: flex;
   gap: 32px;
-  margin: 0;
-  padding: 0;
+  margin: 100px;
+  padding: 100px;
 }
 
 nav ul li a {
@@ -479,7 +479,6 @@ footer::after {
     padding: 20px;
   }
 }
-
 
 
 /* ======================
