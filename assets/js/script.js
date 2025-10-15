@@ -246,3 +246,5 @@ document.addEventListener("DOMContentLoaded", () => {
 function moveProducts(direction) {
   productsCarousel.move(direction);
 }
+
+

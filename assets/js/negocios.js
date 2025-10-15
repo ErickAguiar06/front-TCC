@@ -43,6 +43,9 @@ function adicionarAoCarrinho(id, nome, descricao, preco, imagem) {
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
   mostrarPainelLateral(nome, imagem);
+
+  // Redireciona para a página de horários
+  window.location.href = "horario.html";
 }
 
 // Função que exibe o painel lateral ao adicionar produto
@@ -83,4 +86,26 @@ const slideMenu = document.getElementById('slide-menu');
 menuToggle.addEventListener('click', () => {
   slideMenu.classList.toggle('active');
   menuToggle.classList.toggle('active');
+});
+
+// Redireciona para horario.html com imagem e serviço
+function redirecionarParaHorario(servico, imagem) {
+  // Codifica os parâmetros para URL
+  const params = new URLSearchParams({
+    servico: servico,
+    imagem: imagem
+  });
+  window.location.href = `horario.html?${params.toString()}`;
+}
+
+// Adiciona evento aos botões "Ver horários" dos cards principais
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".servico-card .btn-agendar").forEach(btn => {
+    btn.addEventListener("click", function () {
+      const card = btn.closest(".servico-card");
+      const servico = card.querySelector("h2").textContent.trim();
+      const imagem = card.querySelector("img").getAttribute("src");
+      redirecionarParaHorario(servico, imagem);
+    });
+  });
 });
