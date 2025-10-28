@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Resetar Senha - 4 Patas PetShop</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
+    .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+    input, button { width: 100%; margin: 10px 0; padding: 10px; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Resetar Senha</h2>
+    <form id="formResetarSenha">
+      <input type="password" name="novaSenha" placeholder="Nova senha" required />
+      <input type="password" name="confirmarSenha" placeholder="Confirmar nova senha" required />
+      <button type="submit">Resetar Senha</button>
+    </form>
+  </div>
+
+  <script>
+    const API_URL = "https://back-tcc.vercel.app";
+
+    document.getElementById('formResetarSenha').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      const novaSenha = e.target.novaSenha.value;
+      const confirmarSenha = e.target.confirmarSenha.value;
+
+      if (!token) {
+        alert("Token inválido.");
+        return;
+      }
+      if (novaSenha !== confirmarSenha) {
+        alert("As senhas não coincidem.");
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/resetar-senha`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, novaSenha })
+      });
+
+      const data = await response.json();
+      alert(data.message);
+
+      if (response.ok) {
+        window.location.href = "login.html"; // Redireciona para login após sucesso
+      }
+    });
+  </script>
+</body>
+</html>
