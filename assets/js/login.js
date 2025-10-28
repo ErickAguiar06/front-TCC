@@ -122,6 +122,62 @@ document.addEventListener('DOMContentLoaded', () => {
   signUpButton.addEventListener("click", () => container.classList.add("right-panel-active"));
   signInButton.addEventListener("click", () => container.classList.remove("right-panel-active"));
 
+  // === MODAL RECUPERAR SENHA ===
+  const modalRecuperar = document.getElementById('modalRecuperarSenha');
+  const fecharModalRecuperar = document.getElementById('fecharModalRecuperar');
+  const formRecuperarSenha = document.getElementById('formRecuperarSenha');
+  const linkEsqueceuSenha = document.getElementById('linkEsqueceuSenha');
+
+  // Abrir modal ao clicar em "Esqueceu a senha?"
+  linkEsqueceuSenha.addEventListener('click', (e) => {
+    e.preventDefault();
+    modalRecuperar.style.display = 'block';
+  });
+
+  // Fechar modal
+  fecharModalRecuperar.addEventListener('click', () => {
+    modalRecuperar.style.display = 'none';
+  });
+
+  // Fechar modal ao clicar fora
+  window.addEventListener('click', (e) => {
+    if (e.target === modalRecuperar) {
+      modalRecuperar.style.display = 'none';
+    }
+  });
+
+  // Submit do form de recuperação
+ handleSubmit(formRecuperarSenha, async () => {
+  const email = formRecuperarSenha.emailRecuperacao.value.trim();
+  if (!email) {
+    alert("Digite seu email.");
+    return;
+  }
+  console.log("Enviando email para:", email); // Mova para cá (antes do fetch)
+  const response = await fetch(`${API_URL}/recuperar-senha`, { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+
+
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      alert("Erro ao processar resposta do servidor.");
+      return;
+    }
+
+    alert(data.message); // Sempre mostra a mensagem (mesmo se email não existir, por segurança)
+
+    if (response.ok) {
+      modalRecuperar.style.display = 'none';
+      formRecuperarSenha.reset();
+    }
+    console.log("Enviando email para:", email); // Para debug
+  }, "Enviando...");
+
 });
 
 // === PERFIL / LOGOUT ===
