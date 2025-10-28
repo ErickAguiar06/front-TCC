@@ -828,7 +828,6 @@ footer::after {
 .marca-card .overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
   display: flex;
   justify-content: center;
   align-items: flex-end;
