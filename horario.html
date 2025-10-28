@@ -2,51 +2,41 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Agendar Horário</title>
-  <link rel="stylesheet" href="assets/css/horario.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+  <title>Agendamento</title>
+  <link rel="stylesheet" href="/assets/css/h">
 </head>
 <body>
-<header>
-  <div class="logo"> 
-    <img src="assets/img/4patas.png" alt="Logo 4 Patas"> Petshop 4 Patas
-  </div>
-  <nav>
-    <ul>
-      <li><a href="index.html"><i class="fas fa-home"></i> Início</a></li>
-      <li><a href="negocios.html"><i class="fas fa-paw"></i> Serviços</a></li>
-      <li><a href="sobre.html"><i class="fas fa-envelope"></i> Contato</a></li>
-      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-    </ul>
-  </nav>
-</header>
+  <h1>Agendamento</h1>
 
-<main>
-  <section class="agendamento-container">
-    <!-- Mostra imagem e nome do serviço selecionado -->
-    <div id="servico-agendado-img" style="text-align:center; margin-bottom:20px;"></div>
+  <p id="servico-escolhido">Carregando serviço...</p>
 
-    <form class="agendamento-form">
-      <!-- Campo de serviço removido -->
-      <label for="data">Data:</label>
-      <input type="date" id="data" name="data" required>
+  <form id="agendamentoForm">
+    <label for="nome">Seu nome:</label>
+    <input type="text" id="nome" name="nome" required>
 
-      <label for="hora">Horário:</label>
-      <input type="time" id="hora" name="hora" required min="08:00" max="18:00">
+    <label for="data">Data:</label>
+    <input type="date" id="data" name="data" required>
 
-      <button type="submit">Agendar</button>
-    </form>
+    <label for="hora">Hora:</label>
+    <input type="time" id="hora" name="hora" required>
 
-    <div id="mensagem-sucesso" class="mensagem-sucesso" style="display:none;">
-      Agendamento realizado com sucesso!
-    </div>
-  </section>
-</main>
+    <button type="submit">Agendar</button>
+  </form>
 
+  <script>
+    // Pegar serviço da URL
+    const params = new URLSearchParams(window.location.search);
+    const servico = params.get('servico');
 
-<script src="assets/js/horario.js"></script>
+    const servicoText = servico ? servico.replace(/-/g, ' ') : 'Nenhum serviço selecionado';
+    document.getElementById('servico-escolhido').innerText = 'Serviço escolhido: ' + servicoText;
 
-
+    // Exemplo de submit
+    document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Agendamento confirmado para ' + servicoText + '!');
+      // Aqui você poderia enviar os dados para um backend ou salvar
+    });
+  </script>
 </body>
 </html>

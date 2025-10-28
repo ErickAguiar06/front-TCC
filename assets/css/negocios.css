@@ -72,8 +72,8 @@ nav ul {
   list-style: none;
   display: flex;
   gap: 32px;
-  margin: 0;
-  padding: 0;
+  margin: 100px;
+  padding: 100px;
 }
 
 nav ul li a {
@@ -481,12 +481,11 @@ footer::after {
 }
 
 
-
 /* ======================
    SEÇÃO DE SERVIÇOS
 ====================== */
 .servicos-container {
-  margin-top: 120px;
+  margin-top: 80px;
   padding: 40px 8%;
   background: linear-gradient(180deg, #fffef9 0%, #fffdf4 100%);
   position: relative;
@@ -518,7 +517,7 @@ footer::after {
   text-align: center;
   font-size: 38px;
   font-weight: 800;
-  color: #5b911f;
+  color: #000000;
   margin-bottom: 40px;
   position: relative;
 }
@@ -620,5 +619,275 @@ footer::after {
 
   .servico-card img {
     height: 180px;
+  }
+}
+
+
+/* ==============================
+   SEÇÃO BANHO & TOSA (ajustada)
+============================== */
+.banho-tosa {
+  background: linear-gradient(90deg, #fff6ed 0%, #ffe4c4 100%);
+  padding: 40px 8%;
+  border-radius: 20px;
+  margin: 50px auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.banho-tosa-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+/* Texto */
+.banho-tosa-text {
+  flex: 1;
+  min-width: 260px;
+}
+
+.banho-tosa-text h2 {
+  font-size: 40px;
+  color: #2a2a2a;
+  font-weight: 900;
+  margin-bottom: 5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.banho-tosa-text h2 span {
+  color: #2a5fc0;
+}
+
+.banho-tosa-text p {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.banho-tosa-text small {
+  display: block;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.banho-tosa-text .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #2a5fc0;
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.banho-tosa-text .btn:hover {
+  background: #174ca3;
+  transform: translateY(-2px);
+}
+
+/* Ícone decorativo opcional (cachorrinho, nuvem, etc.) */
+.banho-tosa-text::before {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: -40px;
+  width: 120px;
+  height: 120px;
+  background: url('assets/img/dog-icon.png') no-repeat center/contain;
+  opacity: 0.15;
+}
+
+/* Vídeo / Imagem */
+.banho-tosa-img {
+  flex: 1;
+  text-align: right;
+}
+
+.banho-tosa-img video,
+.banho-tosa-img img {
+  width: 500px;
+  height: 320px;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.banho-tosa-img video:hover,
+.banho-tosa-img img:hover {
+  transform: scale(1.02);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .banho-tosa-content {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .banho-tosa-text h2 {
+    font-size: 30px;
+  }
+
+  .banho-tosa-text p {
+    font-size: 18px;
+  }
+
+  .banho-tosa-img video {
+    width: 280px;
+    height: 180px;
+  }
+}
+
+
+/* ==============================
+   SEÇÃO HIGIENE DO PET
+============================== */
+.higiene-pet {
+  padding: 60px 10%;
+}
+
+.higiene-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.higiene-img {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.higiene-img img {
+  width: 340px;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
+/* Texto */
+.higiene-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.higiene-text h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.higiene-text p {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.higiene-list {
+  background-color: #f9f9f9;
+  border-radius: 14px;
+  padding: 20px 25px;
+  margin-top: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.higiene-list p {
+  font-size: 16px;
+  color: #333;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.higiene-list i {
+  color: #2a5fc0;
+  font-size: 18px;
+}
+
+
+/* ==============================
+   SEÇÃO ETAPAS DO BANHO
+============================== */
+.etapas-banho {
+  text-align: center;
+  padding: 80px 10%;
+}
+
+.etapas-banho h2 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #222;
+  margin-bottom: 40px;
+}
+
+.etapas-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.etapa-card {
+  background-color: #f7f7f7;
+  border-radius: 20px;
+  width: 180px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.etapa-card i {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.etapa-card p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Efeito hover */
+.etapa-card:hover {
+  background-color: #e8f0ff;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .etapas-container {
+    gap: 16px;
+  }
+
+  .etapa-card {
+    width: 45%;
+    height: 130px;
+  }
+}
+
+@media (max-width: 480px) {
+  .etapa-card {
+    width: 100%;
   }
 }

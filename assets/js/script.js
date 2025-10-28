@@ -23,11 +23,11 @@ async function loginUsuario(email, senha) {
 }
 
 // ------- Produtos -------
-async function listarProdutos() {
+async function listarProdutos(limit = 10) {
   const res = await fetch(`${API_URL}/produtos`);
-  return res.json();
+  const data = await res.json();
+  return data.slice(0, limit); // Mostra só os 6 primeiros produtos
 }
-
 // ------- Pedidos -------
 async function criarPedido(dados) {
   const res = await fetch(`${API_URL}/pedidos`, {
@@ -246,3 +246,5 @@ document.addEventListener("DOMContentLoaded", () => {
 function moveProducts(direction) {
   productsCarousel.move(direction);
 }
+
+
