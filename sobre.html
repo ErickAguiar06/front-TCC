@@ -79,6 +79,34 @@
   <!-- Ícones do Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  (function() {
+    emailjs.init("ZDMVWZ27C-wiUOjQ_"); // substitua pela sua public key
+  })();
+
+  document.getElementById("form-contato").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const mensagem = document.getElementById("mensagem").value;
+
+    emailjs.send("service_1uk2m2i", "template_cy82wkv", {
+      nome: nome,
+      email: email,
+      mensagem: mensagem
+    })
+    .then(() => {
+      alert("Mensagem enviada com sucesso! 🐶");
+      document.getElementById("form-contato").reset();
+    })
+    .catch(() => {
+      alert("Erro ao enviar mensagem. 😢 Tente novamente mais tarde.");
+    });
+  });
+</script>
+
 
 </body>
 </html>
