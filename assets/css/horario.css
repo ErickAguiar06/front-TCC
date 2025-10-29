@@ -1,142 +1,77 @@
-
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 0 40px;
+/* Resetando algumas margens e padding padrões */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Corpo da página */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fefaf4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-
-header {
-    display: flex;
-    height: 30px;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #c4520c;
-    padding: 30px 20%;
-    color: white;                   
-    position: fixed;
-    z-index: 1000;
-    width: 100%;
-    top: 0;
-    nav ul li a i {
-    margin-right: 6px;
-}
-}
-.logo {
-    font-size: 15px;
-    font-weight: bold;
-     display: flex;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
   align-items: center;
-
+  height: 100vh;
 }
-.logo img {
-  height: 60px; 
+
+/* Container do formulário */
+.form-container {
+  background-color: #fff;
+  padding: 20px;
   border-radius: 10px;
-
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    margin-right: 0%;
-    padding-right: 80px;
+/* Imagem no topo do formulário */
+.form-image img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  height: 200px; /* Ajuste a altura conforme necessário */
+  margin-bottom: 20px;
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: 0.3s;
+/* Estilização do formulário */
+form {
+  display: flex;
+  flex-direction: column;
 }
 
-nav ul li a:hover {
-    color: #ffeb3b;
-}
-.agendamento-container {
-    background-color: #fff;
-    padding: 60px 60px;
-    border-radius: 20px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;     /* <<< AUMENTADO PARA FICAR MAIS LARGO */
-    min-height: 600px;
-    margin: 40px auto;
-    box-sizing: border-box;
+form h2 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
 }
 
-
-.agendamento-container h1 {
-    text-align: center;
-    margin-bottom: 24px;
-    color: #333;
+label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #555;
 }
 
-.agendamento-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #444;
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
 }
 
-.agendamento-form select,
-.agendamento-form input[type="date"],
-.agendamento-form input[type="time"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
+button {
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.agendamento-form select:focus,
-.agendamento-form input[type="date"]:focus,
-.agendamento-form input[type="time"]:focus {
-    border-color: #ffc107;
-    outline: none;
+button:hover {
+  background-color: #45a049;
 }
-
-button[type="submit"] {
-    width: 100%;
-    background: linear-gradient(to right, #ffe259, #ffc107);
-    border: none;
-    padding: 14px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #222;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
-}
-
-.mensagem-sucesso {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-    border-radius: 6px;
-    font-weight: bold;
-    text-align: center;
-}
-

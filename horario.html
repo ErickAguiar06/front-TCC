@@ -2,41 +2,64 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Agendamento</title>
-  <link rel="stylesheet" href="/assets/css/h">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar Horário</title>
+  <link rel="stylesheet" href="assets/css/horario.css">
 </head>
 <body>
-  <h1>Agendamento</h1>
+  <div class="form-container">
+    <!-- Exibindo a imagem do serviço -->
+    <div class="form-image">
+      <img id="service-image" src="" alt="Imagem do Serviço" class="form-image">
+    </div>
 
-  <p id="servico-escolhido">Carregando serviço...</p>
+    <!-- Exibindo o preço do serviço -->
+    <div class="form-price">
+      <p id="service-price"></p>
+    </div>
 
-  <form id="agendamentoForm">
-    <label for="nome">Seu nome:</label>
-    <input type="text" id="nome" name="nome" required>
+    <!-- Formulário -->
+    <form id="contact-form" action="#" method="POST">
+      <h2>Formulário de Agendamento</h2>
 
-    <label for="data">Data:</label>
-    <input type="date" id="data" name="data" required>
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" name="nome" required>
 
-    <label for="hora">Hora:</label>
-    <input type="time" id="hora" name="hora" required>
+      <label for="sobrenome">Sobrenome:</label>
+      <input type="text" id="sobrenome" name="sobrenome" required>
 
-    <button type="submit">Agendar</button>
-  </form>
+      <label for="numero">Número:</label>
+      <input type="tel" id="numero" name="numero" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
 
   <script>
-    // Pegar serviço da URL
-    const params = new URLSearchParams(window.location.search);
-    const servico = params.get('servico');
+    // Função para pegar o parâmetro da URL (imagem ou preço)
+    function getUrlParameter(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
 
-    const servicoText = servico ? servico.replace(/-/g, ' ') : 'Nenhum serviço selecionado';
-    document.getElementById('servico-escolhido').innerText = 'Serviço escolhido: ' + servicoText;
+    // Quando a página carregar, obtemos a imagem e o preço da URL
+    window.onload = function() {
+      const imageUrl = getUrlParameter('img');
+      const price = getUrlParameter('preco');
 
-    // Exemplo de submit
-    document.getElementById('agendamentoForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Agendamento confirmado para ' + servicoText + '!');
-      // Aqui você poderia enviar os dados para um backend ou salvar
-    });
+      // Coloca a imagem no formulário
+      if (imageUrl) {
+        document.getElementById('service-image').src = imageUrl;
+      }
+
+      // Coloca o preço no formulário
+      if (price) {
+        document.getElementById('service-price').textContent = `Preço: R$ ${price}`;
+      }
+    }
   </script>
 </body>
 </html>
