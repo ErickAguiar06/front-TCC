@@ -231,6 +231,7 @@ button.fechar:hover {
 }
 
 
+
 .slide-menu ul {
     list-style: none;
     padding: 0;
@@ -390,6 +391,11 @@ button.fechar:hover {
     transition: 0.3s;
 }
 
+.card button:hover {
+    background-color: #fdd835;
+}
+
+
 @media (max-width: 768px) {}
     header {
         flex-direction: column;
@@ -419,35 +425,76 @@ button.fechar:hover {
         background-position: center;
     }
 
-    .sidebar {
-        width: 100%;
-        right: -100%; /* Esconde toda a largura da tela */
-    }
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -520px; /* Escondido fora da tela */
+    width: 400px; /* reduzido para melhor adaptação */
+    height: 100%;
+    background: #fff;
+    border-left: 2px solid #ccc;
+    padding: 20px;
+    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+    transition: right 0.3s ease-in-out;
+    z-index: 9999;
+    overflow-y: auto; 
+  }
+  .sidebar.ativo {
+    right: 0; 
+  }
+  
+  .frete-gratis {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .sugestoes {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .sugestoes li {
+    margin-bottom: 5px;
+  }
+  
+  .carrinho-produto {
+    display: grid;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 12px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    transition: 0.3s;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
 
-    .sidebar.ativo {
-        right: 0;
-    }
+  }
+  
+  .carrinho-produto img {
+    width: 120px; /* menor imagem */
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .conteudo img {
+    width: 30%;
+    display: flex;
+    object-fit: contain;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    text-align: center;
 
-    .carrinho-produto {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-
-    .conteudo img {
-        width: 100%;
-    }
-
-    .cards-container {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-
-    .card {
-        width: 100%;
-        margin: 10px 0;
-        padding: 15px;
-    }
-
+  }
     main {
         margin: 20px;
     }
