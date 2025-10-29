@@ -978,3 +978,108 @@ ease;
   background-color: #ffd000;
 }
 
+    .banner {
+      background-color: #4b0082;
+      color: white;
+      border-radius: 20px;
+      margin: 0px auto;
+      padding: 30px 40px;
+      max-width: 1000px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logopet {
+      width: 100%;
+      text-align: center;
+      font-size: 2em;
+      font-weight: 700;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .highlight {
+      background-color: #4b0082;
+      color: white;
+      border-radius: 20px;
+      padding: 20px;
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      position: relative;
+    }
+
+    .highlight-left {
+      background-color: #ffffff;
+      color: #4b0082;
+      border-radius: 100px 0 0 100px;
+      text-align: left;
+      padding: 22px;
+      flex: 1.2;
+      font-weight: 600;
+      font-size: 1.2em;
+    }
+
+    .discount-badge {
+      position: absolute;
+      top: 20px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9em;
+      border-radius: 10px;
+      padding: 10px 15px;
+      transform: rotate(-10deg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .button-green {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .button-green:hover {
+      background-color: #218838;
+    }
+
+    .button-purple {
+      background-color: #dcb5ff;
+      color: #4b0082;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .button-purple:hover {
+      background-color: #c599ff;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      min-width: 200px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.1em;
+    }
+
+    p {
+      margin: 0;
+      font-size: 0.9em;
+    }
