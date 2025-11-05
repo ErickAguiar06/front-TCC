@@ -8,18 +8,15 @@
 </head>
 <body>
   <div class="form-container">
-    <!-- Exibindo a imagem do serviço -->
     <div class="form-image">
-      <img id="service-image" src="" alt="Imagem do Serviço" class="form-image">
+      <img id="service-image" src="" alt="Imagem do Serviço">
     </div>
 
-    <!-- Exibindo o preço do serviço -->
     <div class="form-price">
       <p id="service-price"></p>
     </div>
 
-    <!-- Formulário -->
-    <form id="contact-form" action="#" method="POST">
+    <form id="contact-form">
       <h2>Formulário de Agendamento</h2>
 
       <label for="nome">Nome:</label>
@@ -29,37 +26,135 @@
       <input type="text" id="sobrenome" name="sobrenome" required>
 
       <label for="numero">Número:</label>
-      <input type="tel" id="numero" name="numero" required>
+      <input type="tel" id="numero" name="numero" placeholder="(xx) xxxxx-xxxx" required>
 
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" required>
+
+      <div class="datetime-group">
+        <div>
+          <label for="data">Data:</label>
+          <input type="date" id="data" name="data" required>
+        </div>
+        <div>
+          <label for="hora">Hora:</label>
+          <input type="time" id="hora" name="hora" required>
+        </div>
+      </div>
 
       <button type="submit">Enviar</button>
     </form>
   </div>
 
   <script>
-    // Função para pegar o parâmetro da URL (imagem ou preço)
+    // Função para obter parâmetros da URL
     function getUrlParameter(name) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(name);
     }
 
-    // Quando a página carregar, obtemos a imagem e o preço da URL
+    // Função para configurar restrições de data e hora
+    function configurarAgendamento() {
+      const dataInput = document.getElementById('data');
+      const horaInput = document.getElementById('hora');
+
+      const agora = new Date();
+      const ano = agora.getFullYear();
+      const mes = String(agora.getMonth() + 1).padStart(2, '0');
+      const dia = String(agora.getDate()).padStart(2, '0');
+      const horas = String(agora.getHours()).padStart(2, '0');
+      const minutos = String(agora.getMinutes()).padStart(2, '0');
+
+      const hoje = `${ano}-${mes}-${dia}`;
+      const horaAtual = `${horas}:${minutos}`;
+
+      dataInput.min = hoje;
+      const proximoAno = (ano + 1) + '-' + mes + '-' + dia;
+      dataInput.max = proximoAno;
+
+      dataInput.value = hoje;
+      horaInput.value = horaAtual;
+
+      dataInput.addEventListener('change', function() {
+        const dataSelecionada = new Date(this.value);
+        const hojeData = new Date();
+        if (dataSelecionada.toDateString() === hojeData.toDateString()) {
+          horaInput.min = horaAtual;
+        } else {
+          horaInput.removeAttribute('min');
+        }
+      });
+    }
+
+    // Verificação e redirecionamento
+    function validarEEnviarFormulario() {
+      const form = document.getElementById('contact-form');
+      form.addEventListener('submit', function(e) {
+        e.preventDefault(); // impede envio automático
+
+        const nome = document.getElementById('nome').value.trim();
+        const sobrenome = document.getElementById('sobrenome').value.trim();
+        const numero = document.getElementById('numero').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const data = document.getElementById('data').value;
+        const hora = document.getElementById('hora').value;
+
+        // Verifica se tudo foi preenchido
+        if (!nome || !sobrenome || !numero || !email || !data || !hora) {
+          alert('Por favor, preencha todos os campos antes de enviar.');
+          return;
+        }
+
+        // Verifica se a data e hora são válidas
+        const agora = new Date();
+        const dataSelecionada = new Date(`${data}T${hora}`);
+        const proximoAno = new Date();
+        proximoAno.setFullYear(agora.getFullYear() + 1);
+
+        if (dataSelecionada < agora) {
+          alert('Você não pode agendar para uma data/hora no passado!');
+          return;
+        }
+        if (dataSelecionada > proximoAno) {
+          alert('Você não pode agendar para uma data muito distante!');
+          return;
+        }
+
+        // Captura dados do serviço
+        const imageUrl = getUrlParameter('img');
+        const price = getUrlParameter('preco');
+
+        // Cria objeto com todos os dados
+        const agendamento = {
+          nome,
+          sobrenome,
+          numero,
+          email,
+          data,
+          hora,
+          imagem: imageUrl,
+          preco: price
+        };
+
+        // Salva no localStorage
+        localStorage.setItem('agendamento', JSON.stringify(agendamento));
+
+        // Redireciona para o carrinho
+        window.location.href = 'checkout.html';
+      });
+    }
+
+    // Ao carregar a página
     window.onload = function() {
       const imageUrl = getUrlParameter('img');
       const price = getUrlParameter('preco');
 
-      // Coloca a imagem no formulário
-      if (imageUrl) {
-        document.getElementById('service-image').src = imageUrl;
-      }
+      if (imageUrl) document.getElementById('service-image').src = imageUrl;
+      if (price) document.getElementById('service-price').textContent = `Preço: R$ ${price}`;
 
-      // Coloca o preço no formulário
-      if (price) {
-        document.getElementById('service-price').textContent = `Preço: R$ ${price}`;
-      }
-    }
+      configurarAgendamento();
+      validarEEnviarFormulario();
+    };
   </script>
 </body>
 </html>

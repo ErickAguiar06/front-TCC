@@ -479,8 +479,6 @@ footer::after {
     padding: 20px;
   }
 }
-
-
 /* ======================
    SEÇÃO DE SERVIÇOS
 ====================== */
@@ -494,7 +492,6 @@ footer::after {
 
 /* pegadas decorativas no fundo */
 .servicos-container::before {
-  content: "🐾 🐾 🐾 🐾 🐾";
   position: absolute;
   font-size: 40px;
   color: rgba(200, 200, 200, 0.2);

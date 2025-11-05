@@ -185,3 +185,19 @@ const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
 if(usuario && usuario.email){
   document.getElementById("perfil-nome").textContent = usuario.email.split("@")[0];
 }
+
+
+  window.onload = function() {
+    const agendamento = JSON.parse(localStorage.getItem('agendamento'));
+
+    if (agendamento) {
+      // Mostra os dados na página
+      document.getElementById('checkout-imagem').src = agendamento.imagem;
+      document.getElementById('checkout-preco').textContent = `R$ ${agendamento.preco}`;
+      document.getElementById('checkout-nome').textContent = `${agendamento.nome} ${agendamento.sobrenome}`;
+      document.getElementById('checkout-data').textContent = `${agendamento.data} às ${agendamento.hora}`;
+    } else {
+      alert('Nenhum agendamento encontrado!');
+    }
+  };
+
