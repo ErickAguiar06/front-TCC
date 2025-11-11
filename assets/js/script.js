@@ -26,8 +26,9 @@ async function loginUsuario(email, senha) {
 async function listarProdutos(limit = 10) {
   const res = await fetch(`${API_URL}/produtos`);
   const data = await res.json();
-  return data.slice(0, limit); // Mostra só os 6 primeiros produtos
+  return data.slice(0, limit);
 }
+
 // ------- Pedidos -------
 async function criarPedido(dados) {
   const res = await fetch(`${API_URL}/pedidos`, {
@@ -119,7 +120,7 @@ const bannerCarousel = {
 };
 
 // =============================
-// CARRINHO (localStorage) - EXPANDIDO PARA INCLUIR DESCRICAO E IMAGEM
+// CARRINHO (localStorage)
 // =============================
 function adicionarAoCarrinho(id, nome, descricao = '', preco, imagem = '') {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
@@ -132,14 +133,22 @@ function adicionarAoCarrinho(id, nome, descricao = '', preco, imagem = '') {
   }
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  atualizarContadorCarrinho(); // 🔹 Atualiza o número no menu
   alert(`${nome} foi adicionado ao carrinho!`);
-
-  // Opcional: Se quiser redirecionar para checkout após adicionar, descomente abaixo
-  // window.location.href = "checkout.html";
 }
 
 // =============================
-// CARREGAR PRODUTOS DO BACK - CORRIGIDO PARA IMAGENS E PARAMS COMPLETOS
+// CONTADOR DO CARRINHO
+// =============================
+function atualizarContadorCarrinho() {
+  const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  const totalItens = carrinho.reduce((soma, item) => soma + item.quantidade, 0);
+  const contador = document.getElementById("cart-count");
+  if (contador) contador.textContent = totalItens;
+}
+
+// =============================
+// CARREGAR PRODUTOS DO BACK
 // =============================
 async function carregarProdutos() {
   try {
@@ -149,7 +158,7 @@ async function carregarProdutos() {
 
     if (!track) return;
 
-    track.innerHTML = ""; // limpar produtos estáticos
+    track.innerHTML = "";
 
     if (!produtos || !produtos.length) {
       track.innerHTML = "<p>Nenhum produto disponível.</p>";
@@ -157,27 +166,30 @@ async function carregarProdutos() {
     }
 
     produtos.forEach(prod => {
-      // Ajusta URL da imagem: se relativa, prefixa com API_URL
       let urlImagem = prod.imagem || '';
       if (urlImagem && !urlImagem.startsWith("http")) {
         urlImagem = `${API_URL}/${urlImagem.replace(/^\/+/, "")}`;
       }
 
-      // Formata preço para brasileiro (ex: R$ 59,90)
-      const precoFormatado = prod.preco ? `R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}` : 'R$ 0,00';
+      const precoFormatado = prod.preco
+        ? `R$ ${parseFloat(prod.preco).toFixed(2).replace('.', ',')}`
+        : 'R$ 0,00';
 
       const div = document.createElement("div");
       div.classList.add("product");
-      
-      // Opcional: Adiciona descricao se existir no banco (não quebra se não tiver)
+
       const descricaoHTML = prod.descricao ? `<p class="descricao">${prod.descricao}</p>` : '';
 
       div.innerHTML = `
-        <img src="${urlImagem}" alt="${prod.nome || 'Produto'}" onerror="this.src='assets/img/placeholder.jpg'; this.alt='Imagem não disponível';">
+        <img src="${urlImagem}" alt="${prod.nome || 'Produto'}"
+          onerror="this.src='assets/img/placeholder.jpg'; this.alt='Imagem não disponível';">
         <p>${prod.nome || 'Produto sem nome'}</p>
         ${descricaoHTML}
         <span>${precoFormatado}</span>
-        <button class="btn" onclick="adicionarAoCarrinho(${prod.id}, '${(prod.nome || '').replace(/'/g, "\\'")}', '${(prod.descricao || '').replace(/'/g, "\\'")}', ${parseFloat(prod.preco || 0)}, '${urlImagem.replace(/'/g, "\\'")}')">
+        <button class="btn"
+          onclick="adicionarAoCarrinho(${prod.id}, '${(prod.nome || '').replace(/'/g, "\\'")}',
+          '${(prod.descricao || '').replace(/'/g, "\\'")}', ${parseFloat(prod.preco || 0)},
+          '${urlImagem.replace(/'/g, "\\'")}')">
           Adicionar ao Carrinho
         </button>
       `;
@@ -192,17 +204,18 @@ async function carregarProdutos() {
   }
 }
 
-// === PERFIL / LOGOUT ===
+// =============================
+// PERFIL / LOGOUT
+// =============================
 const perfilContainer = document.getElementById("perfil-container");
 const modalPerfil = document.getElementById("modal-perfil");
 const fecharPerfil = document.getElementById("fechar-perfil");
 const perfilEmail = document.getElementById("perfil-email");
 const btnLogout = document.getElementById("btn-logout");
 
-// Mostrar modal ao clicar no perfil
 perfilContainer.onclick = () => {
   const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-  if(usuario && usuario.email){
+  if (usuario && usuario.email) {
     perfilEmail.textContent = usuario.email;
     modalPerfil.style.display = "flex";
   } else {
@@ -210,20 +223,17 @@ perfilContainer.onclick = () => {
   }
 };
 
-// Fechar modal
 fecharPerfil.onclick = () => modalPerfil.style.display = "none";
-window.onclick = (e) => { if(e.target === modalPerfil) modalPerfil.style.display = "none"; };
+window.onclick = (e) => { if (e.target === modalPerfil) modalPerfil.style.display = "none"; };
 
-// Logout
 btnLogout.onclick = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("usuarioLogado");
   window.location.href = "login.html";
 };
 
-// Mostrar email resumido no header
 const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-if(usuario && usuario.email){
+if (usuario && usuario.email) {
   document.getElementById("perfil-nome").textContent = usuario.email.split("@")[0];
 }
 
@@ -233,18 +243,21 @@ if(usuario && usuario.email){
 function moveCarousel(direction) {
   carousel.move(direction);
 }
-document.addEventListener("DOMContentLoaded", () => {
-  carousel.init();
-  productsCarousel.track = document.getElementById("productsTrack");
-  bannerCarousel.init();
-  // Garante que carregarProdutos rode após DOM estar pronto
-  if (document.getElementById("productsTrack")) {
-    carregarProdutos();
-  }
-});
 
 function moveProducts(direction) {
   productsCarousel.move(direction);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  carousel.init();
+  productsCarousel.track = document.getElementById("productsTrack");
+  bannerCarousel.init();
 
+  // 🔹 Carregar produtos se houver carrossel de produtos
+  if (document.getElementById("productsTrack")) {
+    carregarProdutos();
+  }
+
+  // 🔹 Atualizar contador do carrinho ao abrir qualquer página
+  atualizarContadorCarrinho();
+});

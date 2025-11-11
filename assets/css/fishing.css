@@ -198,55 +198,94 @@ button.fechar:hover {
     color: rgb(0, 0, 0);
 }
 
-
-
 .menu-toggle {
-    font-size: 30px;
-    padding: 10px;
-    background-color: #fff;
-    color: #28314f;
-    cursor: pointer;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    border: none;
-    border-radius: 5px;
-    z-index: 1000;
+  font-size: 26px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #f4a213, #ffca3a);
+  color: #fff;
+  cursor: pointer;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  border: none;
+  border-radius: 8px;
+  z-index: 1100;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background 0.3s ease;
 }
+
+.menu-toggle:hover {
+  background: linear-gradient(135deg, #ffb400, #ffd64a);
+  transform: scale(1.05);
+}
+
+.menu-toggle.active {
+  left: 280px;
+}
+
+/* === MENU LATERAL === */
 .slide-menu {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    width: 250px;
-    height: 100%;
-    background-color: #343434;
-    transition: left 0.3s ease;
-    z-index: 1000;
-}
-.slide-menu.active{
-    left: 0;
-}
-.menu-toggle.active{
-    left: 250px;
+  position: fixed;
+  top: 0;
+  left: -270px;
+  width: 270px;
+  height: 100vh;
+  background: linear-gradient(180deg, #202020 0%, #2c2c2c 100%);
+  color: #fff;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  transition: left 0.35s ease;
+  z-index: 1000;
+  padding-top: 10px;
+  overflow-y: auto;
+  border-right: 3px solid #f4a213;
 }
 
+.slide-menu.active {
+  left: 0;
+}
 
-
+/* === LISTA DE LINKS === */
 .slide-menu ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
+
 .slide-menu ul li {
-    padding: 15px;
+  margin: 8px 0;
 }
-.slide-menu ul li a {
-    color:white;
-    text-decoration: none;
-    display: black;
+
+/* === TÍTULO DO MENU === */
+.slide-menu ul li h2 {
+  font-size: 1.1rem;
+  margin: 15px 20px 10px;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 1px solid #555;
+  padding-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.slide-menu ul li a:hover {
-    background-color:#28a745;
+
+/* === LINKS === */
+.slide-menu ul a {
+  display: block;
+  color: #f5f5f5;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 4px 15px;
+  transition: all 0.25s ease;
 }
+
+.slide-menu ul a:hover {
+  background: #f4a213;
+  color: #fff;
+  transform: translateX(4px);
+}
+
 
 
 .sidebar {

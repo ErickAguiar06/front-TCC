@@ -19,7 +19,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: #c4520c;
-    padding: 30px 20%;
+    padding: 30px 5%;
     color: white;                   
     position: fixed;
     z-index: 1000;
@@ -81,13 +81,17 @@ header {
       z-index: 1;
     }
 
-    .carousel-button.left {
-      left: -0px;
-    }
+.carousel-button.left {
+  left: 0;
+}
 
-    .carousel-button.right {
-      right: -0px;
-    }
+.carousel-button.right {
+  right: 0;
+}
+.carousel-container {
+  overflow-x: hidden;
+}
+
 
 .logo {
     font-size: 18px;
@@ -558,6 +562,9 @@ element.style {
     display: flex;
     transition: transform 0.8s ease-in-out;
     width: 100%;
+}
+.carousel-card {
+    min-width: 550px;
 }
 
 .carousel-slide {
@@ -1079,3 +1086,31 @@ ease;
       margin: 0;
       font-size: 0.9em;
     }
+
+    /* === Contador do Carrinho no Menu === */
+.cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1;
+  min-width: 18px;
+  text-align: center;
+}
+
+.cart-link:hover .cart-count {
+  background-color: #ffa500;
+}
+
