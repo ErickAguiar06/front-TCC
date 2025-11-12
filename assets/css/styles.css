@@ -328,6 +328,8 @@ nav ul li a:hover::after {
   transition: all 0.3s ease;
   overflow: hidden;
   border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
 }
 
 .product:hover {
@@ -383,6 +385,7 @@ nav ul li a:hover::after {
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-top: auto;
 }
 
 .product .btn:hover {
@@ -495,7 +498,8 @@ element.style {
 .product {
   flex: 0 0 auto;
   width: 250px;
-  display: inline;
+  display: flex;
+  flex-direction: column;
   margin: 0 10px;
   border: 1px solid #ddd;
   padding: 15px;
@@ -516,7 +520,7 @@ element.style {
   border-radius: 999px;
   cursor: pointer;
   transition: 0.2s ease;
-  margin-top: 8px;
+  margin-top: auto;
 }
 
 .product .btn:hover,
