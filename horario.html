@@ -46,115 +46,187 @@
     </form>
   </div>
 
-  <script>
-    // Função para obter parâmetros da URL
-    function getUrlParameter(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
+<script>
+// ======== LISTA DE FERIADOS NACIONAIS (fixos) ========
+const feriadosFixos = [
+  "01-01", "04-21", "05-01", "09-07",
+  "10-12", "11-02", "11-15", "12-25"
+];
+
+function isFeriado(date) {
+  const mes = String(date.getMonth() + 1).padStart(2, "0");
+  const dia = String(date.getDate()).padStart(2, "0");
+  return feriadosFixos.includes(`${mes}-${dia}`);
+}
+
+// ======== Função para obter parâmetros da URL ========
+function getUrlParameter(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
+
+// ======== GERA HORÁRIOS DE 30 EM 30 MINUTOS ========
+function gerarOpcoesHorario(min, max) {
+  const horaInput = document.getElementById('hora');
+  horaInput.innerHTML = ""; // limpa opções
+
+  let [h, m] = min.split(":").map(Number);
+  const [maxH, maxM] = max.split(":").map(Number);
+
+  while (h < maxH || (h === maxH && m <= maxM)) {
+    const horaStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    const option = document.createElement("option");
+    option.value = horaStr;
+    option.textContent = horaStr;
+    horaInput.appendChild(option);
+
+    m += 30;
+    if (m >= 60) {
+      m = 0;
+      h++;
+    }
+  }
+}
+
+// ======== CONFIGURAÇÃO DE DATA ========
+function configurarAgendamento() {
+  const dataInput = document.getElementById('data');
+  const horaInput = document.getElementById('hora');
+
+  const agora = new Date();
+  const anoAtual = agora.getFullYear();
+
+  const minData = agora.toISOString().split("T")[0];
+  const maxData = `${anoAtual + 1}-12-31`;
+
+  dataInput.min = minData;
+  dataInput.max = maxData;
+  dataInput.value = minData;
+
+  dataInput.addEventListener('change', function () {
+    const dataSelecionada = new Date(this.value);
+    const diaSemana = dataSelecionada.getDay();
+
+    // Domingo ou feriado bloqueado
+    if (diaSemana === 0 || isFeriado(dataSelecionada)) {
+      alert("Não é possível agendar em domingos ou feriados.");
+      this.value = "";
+      horaInput.innerHTML = "";
+      return;
     }
 
-    // Função para configurar restrições de data e hora
-    function configurarAgendamento() {
-      const dataInput = document.getElementById('data');
-      const horaInput = document.getElementById('hora');
-
-      const agora = new Date();
-      const ano = agora.getFullYear();
-      const mes = String(agora.getMonth() + 1).padStart(2, '0');
-      const dia = String(agora.getDate()).padStart(2, '0');
-      const horas = String(agora.getHours()).padStart(2, '0');
-      const minutos = String(agora.getMinutes()).padStart(2, '0');
-
-      const hoje = `${ano}-${mes}-${dia}`;
-      const horaAtual = `${horas}:${minutos}`;
-
-      dataInput.min = hoje;
-      const proximoAno = (ano + 1) + '-' + mes + '-' + dia;
-      dataInput.max = proximoAno;
-
-      dataInput.value = hoje;
-      horaInput.value = horaAtual;
-
-      dataInput.addEventListener('change', function() {
-        const dataSelecionada = new Date(this.value);
-        const hojeData = new Date();
-        if (dataSelecionada.toDateString() === hojeData.toDateString()) {
-          horaInput.min = horaAtual;
-        } else {
-          horaInput.removeAttribute('min');
-        }
-      });
+    // Segunda a sexta
+    if (diaSemana >= 1 && diaSemana <= 5) {
+      gerarOpcoesHorario("07:00", "19:00");
     }
 
-    // Verificação e redirecionamento
-    function validarEEnviarFormulario() {
-      const form = document.getElementById('contact-form');
-      form.addEventListener('submit', function(e) {
-        e.preventDefault(); // impede envio automático
+    // Sábado
+    else if (diaSemana === 6) {
+      gerarOpcoesHorario("07:00", "14:00");
+    }
+  });
 
-        const nome = document.getElementById('nome').value.trim();
-        const sobrenome = document.getElementById('sobrenome').value.trim();
-        const numero = document.getElementById('numero').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const data = document.getElementById('data').value;
-        const hora = document.getElementById('hora').value;
+  // Carregar horários para hoje
+  const diaHoje = agora.getDay();
+  if (diaHoje >= 1 && diaHoje <= 5) gerarOpcoesHorario("07:00", "19:00");
+  else if (diaHoje === 6) gerarOpcoesHorario("07:00", "14:00");
+}
 
-        // Verifica se tudo foi preenchido
-        if (!nome || !sobrenome || !numero || !email || !data || !hora) {
-          alert('Por favor, preencha todos os campos antes de enviar.');
-          return;
-        }
+// ======== VALIDAÇÃO FINAL DO FORMULÁRIO ========
+function validarEEnviarFormulario() {
+  const form = document.getElementById('contact-form');
 
-        // Verifica se a data e hora são válidas
-        const agora = new Date();
-        const dataSelecionada = new Date(`${data}T${hora}`);
-        const proximoAno = new Date();
-        proximoAno.setFullYear(agora.getFullYear() + 1);
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-        if (dataSelecionada < agora) {
-          alert('Você não pode agendar para uma data/hora no passado!');
-          return;
-        }
-        if (dataSelecionada > proximoAno) {
-          alert('Você não pode agendar para uma data muito distante!');
-          return;
-        }
+    const nome = document.getElementById('nome').value.trim();
+    const sobrenome = document.getElementById('sobrenome').value.trim();
+    const numero = document.getElementById('numero').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const data = document.getElementById('data').value;
+    const hora = document.getElementById('hora').value;
 
-        // Captura dados do serviço
-        const imageUrl = getUrlParameter('img');
-        const price = getUrlParameter('preco');
-
-        // Cria objeto com todos os dados
-        const agendamento = {
-          nome,
-          sobrenome,
-          numero,
-          email,
-          data,
-          hora,
-          imagem: imageUrl,
-          preco: price
-        };
-
-        // Salva no localStorage
-        localStorage.setItem('agendamento', JSON.stringify(agendamento));
-
-        // Redireciona para o carrinho
-        window.location.href = 'checkout.html';
-      });
+    if (!nome || !sobrenome || !numero || !email || !data || !hora) {
+      alert("Preencha todos os campos.");
+      return;
     }
 
-    // Ao carregar a página
-    window.onload = function() {
-      const imageUrl = getUrlParameter('img');
-      const price = getUrlParameter('preco');
+    const agora = new Date();
+    const dataSelecionada = new Date(`${data}T${hora}`);
+    const anoAtual = agora.getFullYear();
 
-      if (imageUrl) document.getElementById('service-image').src = imageUrl;
-      if (price) document.getElementById('service-price').textContent = `Preço: R$ ${price}`;
+    if (dataSelecionada < agora) {
+      alert("Não é possível agendar no passado.");
+      return;
+    }
 
-      configurarAgendamento();
-      validarEEnviarFormulario();
+    if (dataSelecionada.getFullYear() > anoAtual + 1) {
+      alert("Ano inválido para agendamento.");
+      return;
+    }
+
+    // VALIDAÇÃO EXTRA – horário fora da lista NÃO passa
+    const horariosPermitidos = [...document.getElementById('hora').options].map(o => o.value);
+    if (!horariosPermitidos.includes(hora)) {
+      alert("Horário inválido! Apenas horários de 30 em 30 minutos são permitidos.");
+      return;
+    }
+
+    // Domingo/feriado (extra)
+    if (dataSelecionada.getDay() === 0 || isFeriado(dataSelecionada)) {
+      alert("Não é possível agendar em domingos ou feriados.");
+      return;
+    }
+
+    // ============================
+    // SALVAR AGENDAMENTO
+    // ============================
+    const agendamento = {
+      nome,
+      sobrenome,
+      numero,
+      email,
+      data,
+      hora,
+      imagem: getUrlParameter('img'),
+      preco: getUrlParameter('preco')
     };
-  </script>
+
+    localStorage.setItem('agendamento', JSON.stringify(agendamento));
+
+    // ============================
+    // ADICIONAR AO CARRINHO
+    // ============================
+    let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+    const itemCarrinho = {
+      id: Date.now(),
+      nome: `Agendamento - ${agendamento.data} ${agendamento.hora}`,
+      imagem: agendamento.imagem,
+      preco: Number(agendamento.preco),
+      quantidade: 1
+    };
+
+    carrinho.push(itemCarrinho);
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+    // Redireciona
+    window.location.href = "checkout.html";
+  });
+}
+
+// ======== INICIAR ========
+window.onload = function () {
+  const imageUrl = getUrlParameter('img');
+  const price = getUrlParameter('preco');
+
+  if (imageUrl) document.getElementById('service-image').src = imageUrl;
+  if (price) document.getElementById('service-price').textContent = `Preço: R$ ${price}`;
+
+  configurarAgendamento();
+  validarEEnviarFormulario();
+};
+</script>
+
 </body>
 </html>
