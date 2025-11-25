@@ -261,3 +261,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🔹 Atualizar contador do carrinho ao abrir qualquer página
   atualizarContadorCarrinho();
 });
+
+

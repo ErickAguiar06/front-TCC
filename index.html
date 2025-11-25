@@ -16,20 +16,35 @@
     <nav>
       <ul>
          <div class="perfil-container" id="perfil-container">
-    <span id="perfil-nome">Perfil</span> ▼
-  </div>
+            <span id="perfil-nome">Perfil</span> ▼
+         </div>
+
         <li><a href="negocios.html"><i class="fas fa-paw"></i> Serviços</a></li>
         <li><a href="sobre.html"><i class="fas fa-envelope"></i> Contato</a></li>
-        <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+
+        <!-- 🔵 AQUI ESTÁ O MENU DE LOGIN NOVO -->
+        <li class="user-menu">
+            <div class="user-icon">
+                <i class="fas fa-user"></i>
+            </div>
+
+            <div class="user-dropdown">
+                <a href="login.html" class="btn-entrar">Entrar</a>
+                <p>Não tem cadastro? <a href="login.html">Criar conta</a></p>
+            </div>
+        </li>
+        <!-- 🔵 FIM DO MENU DE LOGIN -->
+
         <li>
-  <a href="checkout.html" class="cart-link">
-    <i class="fas fa-shopping-cart"></i>
-    <span class="cart-count" id="cart-count">0</span>
-  </a>
-</li>
+          <a href="checkout.html" class="cart-link">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count">0</span>
+          </a>
+        </li>
       </ul>
     </nav>
-  </header>
+</header>
+
 
 <!-- Modal de perfil – fora do header -->
 <div id="modal-perfil" class="modal">

@@ -358,13 +358,6 @@ nav ul li a:hover::after {
 }
 
 /* === PREÇO ANTIGO === */
-.product span {
-  display: block;
-  font-size: 14px;
-  color: #a1a1a1;
-  text-decoration: line-through;
-  margin-bottom: 4px;
-}
 
 /* === PREÇO NOVO === */
 .product .new-price {
@@ -431,7 +424,7 @@ nav ul li a:hover::after {
   font-size: 16px;
   color: #ff8c42;
   margin: 5px 0;
-  text-decoration: line-through; /* Preço original com linha */
+  text-decoration: auto; /* Preço original com linha */
 }
 
 /* Rodapé */
@@ -1116,5 +1109,67 @@ ease;
 
 .cart-link:hover .cart-count {
   background-color: #ffa500;
+}
+
+
+/* === MENU DE LOGIN COM DROPDOWN === */
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+}
+
+/* Dropdown */
+.user-dropdown {
+    position: absolute;
+    top: block;
+    right: 0;
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 220px;
+    display: none;
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Mostrar no hover */
+.user-menu:hover .user-dropdown {
+    display: block;
+}
+
+/* Botão entrar */
+.btn-entrar {
+    display: block;
+    background-color: #ffcc00;
+    color: black;
+    padding: 10px 0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-entrar:hover {
+    background-color: #ffa500;
+}
+
+.user-dropdown p {
+    font-size: 14px;
+    color: #333;
+}
+
+.user-dropdown p a {
+    color: #000000;
+    font-weight: bold;
 }
 
